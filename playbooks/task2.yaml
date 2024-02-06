@@ -9,5 +9,9 @@
     - name: "Task 2"
       debug:
         var: ansible_facts
+    - name: "Set task2 output"
+      ansible.builtin.set_stats:
+        data:
+          task2_output: "Output 2"
 ...
 
