@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    input_vars:
+      - param1
+      - param2
+  tasks:
+    - name: "Show the input variables"
+      ansible.builtin.debug:
+        var: "{{ current_var }}"
+      loop: "{{ input_vars }}"
+      loop_control:
+        loop_var: current_var
+...
