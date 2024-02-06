@@ -18,5 +18,5 @@
     - name: "Set the output parameters for the next node"
       ansible.builtin.set_stats:
         data:
-          output: "{{ (output | default([])) + [param1 | default('no param 1') + ' - ' param2 | default('no param 2')] }}"
+          output: "{{ (output | default([])) + [param1 | default('no param 1') + ' - ' + param2 | default('no param 2')] }}"
 ...
