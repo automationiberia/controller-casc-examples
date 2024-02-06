@@ -1,0 +1,25 @@
+---
+controller_settings:
+  - settings:
+      TOWER_URL_BASE: "https://aap-all-in-one.iam.lab:444"
+      LICENSE:
+        account_number: '1460290'
+        instance_count: 5
+        license_date: '1798779599'
+        license_type: enterprise
+        pool_id: 8a85f99a7db4827d017dc515e32c00d1
+        product_name: Employee SKU
+        satellite: false
+        sku: ES0113909
+        subscription_id: '10479521'
+        subscription_name: Employee SKU
+        support_level: Self-Support
+        trial: false
+        usage: Development/Test
+        valid_key: true
+      INSTALL_UUID: "7cb2f714-ba48-4af2-93f9-066598d918b4"
+      INSIGHTS_TRACKING_STATE: "false"
+      CLEANUP_HOST_METRICS_LAST_TS: "2024-01-25T11:36:52.219410Z"
+      HOST_METRIC_SUMMARY_TASK_LAST_TS: "2024-01-25T12:06:54.255331Z"
+      PENDO_TRACKING_STATE: "off"
+...
