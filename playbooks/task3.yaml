@@ -1,0 +1,11 @@
+---
+- name: "Playbook for task3"
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "Task 3"
+      debug:
+        var: ansible_facts
+...
+
