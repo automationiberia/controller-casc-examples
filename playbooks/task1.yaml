@@ -3,6 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
+  tags:
+    - task1
   tasks:
     - name: "Task 1"
       debug:
