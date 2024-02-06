@@ -8,6 +8,7 @@
       - param1
       - param2
       - output
+      - output2
   tasks:
     - name: "Show the input variables"
       ansible.builtin.debug:
@@ -19,4 +20,9 @@
       ansible.builtin.set_stats:
         data:
           output: "{{ (output | default([])) + [param1 | default('no param 1') + ' - ' + param2 | default('no param 2')] }}"
+    - name: "Set the output parameters for the next node"
+      ansible.builtin.set_stats:
+        data:
+          output2: "{{ output | default([]) }}"
+      when: output is defined and output | length > 0
 ...
