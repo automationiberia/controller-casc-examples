@@ -9,6 +9,13 @@
     - name: "Task 2"
       debug:
         var: ansible_facts
+    - name: "Task 2"
+      debug:
+        var: "{{ item }}"
+      loop:
+        - task1_output
+        - task2_output
+        - task3_output
     - name: "Set task2 output"
       ansible.builtin.set_stats:
         data:
