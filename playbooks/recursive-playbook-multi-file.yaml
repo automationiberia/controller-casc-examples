@@ -3,6 +3,9 @@
   connection: local
   gather_facts: false
   tasks:
+    - name: "Show all the ansible_facts"
+      ansible.builtin.debug:
+        var: ansible_facts
     - name: "Block to be run when no input credential is specified"
       block:
         - name: "Determine the credential to be used"
