@@ -3,17 +3,20 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: "Show all the ansible_facts"
-      ansible.builtin.debug:
-        var: hostvars[inventory_hostname]
+    - name: "Determine if pre-tasks must be executed or not"
+      ansible.builtin.set_fact:
+        _input_credential: "{{ input_credential is defined }}"
+
     - name: "Block to be run when no input credential is specified"
       when:
-        - input_credential is not defined
+        - _input_credential is defined
+        - not _input_credential
         - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
       block:
         - name: "Determine the credential to be used"
           ansible.builtin.set_fact:
             input_credential: "{{ 'AD1 Credential' if inventory_hostname in groups.ad1 else 'AD2 Credential' if inventory_hostname in groups.ad2 }}"
+
         - name: "Show the credential to be used"
           ansible.builtin.debug:
             msg: "The credential to be used is: {{ input_credential }}"
@@ -29,5 +32,7 @@
 
 
 - ansible.builtin.import_playbook: recursive-playbook-multi-file-target.yaml
-  when: input_credential is defined
+  when:
+    - _input_credential is defined
+    - _input_credential
 ...
