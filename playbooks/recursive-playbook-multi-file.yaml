@@ -2,10 +2,13 @@
 - hosts: all
   connection: local
   gather_facts: false
+  when:
+    - input_credential is not defined
+    - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
   tasks:
     - name: "Show all the ansible_facts"
       ansible.builtin.debug:
-        var: host_vars[inventory_hostname]
+        var: hostvars[inventory_hostname]
     - name: "Block to be run when no input credential is specified"
       block:
         - name: "Determine the credential to be used"
@@ -24,9 +27,6 @@
             extra_vars:
               input_credential: "{{ input_credential }}"
 
-      when:
-        - input_credential is not defined
-        - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
 
 - ansible.builtin.import_playbook: recursive-playbook-multi-file-target.yaml
   when: input_credential is defined
