@@ -25,7 +25,7 @@
             controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
             controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
             controller_host: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-            validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+            validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
             job_template: "Recursive Job Template Multi File"
             extra_vars:
               input_credential: "{{ input_credential }}"
