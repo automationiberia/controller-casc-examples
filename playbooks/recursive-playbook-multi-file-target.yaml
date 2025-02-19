@@ -1,0 +1,11 @@
+---
+- hosts: all
+  tasks:
+    - name: "Write the provided credential name to a temporary file"
+      ansible.builtin.copy:
+        dest: "/var/tmp/provided_credential_{{ inventory_hostname }}.txt"
+        content: "The credential name that has been used is: {{ input_credential }}"
+    - name: "Show the provided credential name"
+      ansible.builtin.debug:
+        msg: "The credential name that has been used is: {{ input_credential }}"
+...

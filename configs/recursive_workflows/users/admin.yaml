@@ -1,7 +1,7 @@
 ---
 controller_user_accounts:
 - username: "admin"
-  password: "INITIAL"
+  password: "redhat00"
   email: "admin@example.com"
   first_name: ""
   last_name: ""

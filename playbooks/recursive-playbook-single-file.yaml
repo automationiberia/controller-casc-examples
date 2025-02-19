@@ -1,0 +1,36 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: "Block to be run when no input credential is specified"
+      block:
+        - name: "Determine the credential to be used"
+          ansible.builtin.set_fact:
+            input_credential: "{{ 'A' if inventory_hostname in groups.ad1 else 'B' if inventory_hostname in groups.ad2 }}"
+        - name: "Show the credential to be used"
+          ansible.builtin.debug:
+            msg: "The credential to be used is: {{ input_credential }}"
+      when:
+        - input_credential is not defined
+        - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
+
+- hosts: all
+  tasks:
+    - name: "Show the credential to be used"
+      ansible.builtin.debug:
+        msg:
+          - "The credential to be used is: {{ input_credential | default('not defined') }}"
+    - name: "Block to be run when no input credential is specified"
+      block:
+        - name: "Write the provided credential name to a temporary file"
+          ansible.builtin.copy:
+            dest: "/var/tmp/provided_credential_{{ inventory_hostname }}.txt"
+            content: "The credential name that has been used is: {{ input_credential }}"
+        - name: "Show the provided credential name"
+          ansible.builtin.debug:
+            msg: "The credential name that has been used is: {{ input_credential }}"
+      when:
+        - input_credential is defined
+        - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
+...
