@@ -31,6 +31,8 @@
           awx.awx.job_launch:
             validate_certs: false
             job_template: "Recursive Job Template Multi File"
+            extra_vars:
+              input_credential: "{{ input_credential }}"
             credentials:
               - "AAP Self Connection"
               - "{{ input_credential }}"
