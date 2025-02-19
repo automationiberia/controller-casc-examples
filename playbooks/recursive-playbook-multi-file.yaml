@@ -5,15 +5,25 @@
   tasks:
     - name: "Show all the ansible_facts"
       ansible.builtin.debug:
-        var: ansible_facts
+        var: host_vars[inventory_hostname]
     - name: "Block to be run when no input credential is specified"
       block:
         - name: "Determine the credential to be used"
           ansible.builtin.set_fact:
-            input_credential: "{{ 'A' if inventory_hostname in groups.ad1 else 'B' if inventory_hostname in groups.ad2 }}"
+            input_credential: "{{ 'AD1 Credential' if inventory_hostname in groups.ad1 else 'AD2 Credential' if inventory_hostname in groups.ad2 }}"
         - name: "Show the credential to be used"
           ansible.builtin.debug:
             msg: "The credential to be used is: {{ input_credential }}"
+        - name: "Launch the same job with the correct credentials"
+          awx.awx.job_launch:
+            controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+            controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+            controller_host: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+            validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) }}"
+            job_template: "Recursive Job Template Multi File"
+            extra_vars:
+              input_credential: "{{ input_credential }}"
+
       when:
         - input_credential is not defined
         - inventory_hostname in groups.ad1 or inventory_hostname in groups.ad2
