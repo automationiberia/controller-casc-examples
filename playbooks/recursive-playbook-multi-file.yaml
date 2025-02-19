@@ -29,6 +29,7 @@
 
         - name: "Launch the same job with the correct credential"
           awx.awx.job_launch:
+            controller_host: "{{ lookup('env', 'AWX_HOST') }}"
             job_template: "Recursive Job Template Multi File"
             credentials:
               - "{{ input_credential }}"
