@@ -10,6 +10,6 @@ controller_execution_environments:
     pull: "always"
   - name: "casc-examples"
     description: ""
-    image: "quay.io/automationiberia/casc/casc-examples"
+    image: "quay.io/automationiberia/casc/casc-examples:v0.0.1"
     pull: "always"
 ...
