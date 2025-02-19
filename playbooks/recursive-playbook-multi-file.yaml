@@ -20,6 +20,7 @@
         - name: "Show the credential to be used"
           ansible.builtin.debug:
             msg: "The credential to be used is: {{ input_credential }}"
+
         - name: "Launch the same job with the correct credentials"
           awx.awx.job_launch:
             controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
@@ -27,8 +28,8 @@
             controller_host: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
             validate_certs: false
             job_template: "Recursive Job Template Multi File"
-            extra_vars:
-              input_credential: "{{ input_credential }}"
+            credentials:
+              - "{{ input_credential }}"
 
 
 - ansible.builtin.import_playbook: recursive-playbook-multi-file-target.yaml
