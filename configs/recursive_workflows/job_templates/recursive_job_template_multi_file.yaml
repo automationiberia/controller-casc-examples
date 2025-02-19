@@ -16,6 +16,7 @@ controller_templates:
     credentials:
       - "Recursive Workflows Credential"
     allow_simultaneous: false
+    execution_environment: "casc-examples"
     ask_scm_branch_on_launch: false
     ask_diff_mode_on_launch: false
     ask_tags_on_launch: false

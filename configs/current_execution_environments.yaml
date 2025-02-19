@@ -8,4 +8,8 @@ controller_execution_environments:
     description: ""
     image: "quay.io/automationiberia/casc/ee-casc"
     pull: "always"
+  - name: "casc-examples"
+    description: ""
+    image: "quay.io/automationiberia/casc/casc-examples"
+    pull: "always"
 ...
