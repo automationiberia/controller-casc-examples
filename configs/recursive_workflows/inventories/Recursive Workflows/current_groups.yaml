@@ -1,14 +1,14 @@
 ---
 controller_groups:
-  - name: ad1
-    description: Hosts registered to Active Directory 1
+  - name: "AD1 Credential"
+    description: "Hosts registered to Active Directory 1"
     inventory: "Recursive Workflows Inventory"
     variables:
       myvars: example1
     hosts:
       - host1
-  - name: ad2
-    description: Hosts registered to Active Directory 2
+  - name: "AD2 Credential"
+    description: "Hosts registered to Active Directory 2"
     inventory: "Recursive Workflows Inventory"
     variables:
       myvars: example2

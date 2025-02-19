@@ -3,12 +3,6 @@
   connection: local
   gather_facts: false
   tasks:
-    - name: "Show existing variables"
-      ansible.builtin.debug:
-        msg:
-          - "{{ hostvars[inventory_hostname] }}"
-          - "{{ lookup('pipe', 'env') }}"
-
     - name: "Determine if pre-tasks must be executed or not"
       ansible.builtin.set_fact:
         _input_credential: "{{ input_credential is defined }}"
@@ -43,17 +37,10 @@
             job_id: "{{ job.id }}"
             timeout: 120
 
-        # - name: "Launch the same job with the correct credentials"
-        #   awx.awx.job_launch:
-        #     controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
-        #     controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
-        #     controller_host: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
-        #     validate_certs: false
-        #     credentials:
-
-
 - ansible.builtin.import_playbook: recursive-playbook-multi-file-target.yaml
   when:
     - _input_credential is defined
     - _input_credential
+    - input_credential is defined
+    - input_credential in group_names
 ...
