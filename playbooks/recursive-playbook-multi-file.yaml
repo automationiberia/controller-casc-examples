@@ -22,14 +22,14 @@
             msg: "The credential to be used is: {{ input_credential }}"
 
         - name: "Launch the same job with the correct credential"
-          job_launch:
+          awx.awx.job_launch:
             job_template: "Recursive Job Template Multi File"
             credentials:
               - "{{ input_credential }}"
           register: job
 
         - name: Wait for job max 120s
-          job_wait:
+          ansible.builtin.job_wait:
             job_id: "{{ job.id }}"
             timeout: 120
 
