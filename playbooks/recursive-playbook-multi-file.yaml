@@ -27,6 +27,7 @@
             job_template: "Recursive Job Template Multi File"
             extra_vars:
               input_credential: "{{ input_credential }}"
+            limit: "{{ groups.ad1 if inventory_hostname in groups.ad1 else groups.ad2 if inventory_hostname in groups.ad2 }}"
             credentials:
               - "AAP Self Connection"
               - "{{ input_credential }}"
