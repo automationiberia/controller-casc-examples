@@ -21,21 +21,41 @@
           ansible.builtin.debug:
             msg: "The credential to be used is: {{ input_credential }}"
 
-        - name: "Launch the same job with the correct credential"
-          awx.awx.job_launch:
-            validate_certs: false
-            job_template: "Recursive Job Template Multi File"
-            extra_vars:
-              input_credential: "{{ input_credential }}"
-            credentials:
-              - "AAP Self Connection"
-              - "{{ input_credential }}"
-          register: job
+        - name: "Launch the same job for both groups"
+          block:
+            - name: "Launch the same job with the correct credential"
+              awx.awx.job_launch:
+                validate_certs: false
+                job_template: "{{ awx_job_template_name }}"
+                extra_vars:
+                  input_credential: "{{ input_credential }}"
+                credentials: "{{ _current_credentials + [input_credential] }}"
+                limit: "{{ groups.ad1 }}"
+              vars:
+                _current_credentials: "{{ lookup('awx.awx.controller_api', 'jobs/' + awx_job_id  + '/credentials/') | rejectattr('kind', 'match', 'ssh') }}"
+              register: job_ad1
 
-        - name: Wait for job max 120s
-          awx.awx.job_wait:
-            job_id: "{{ job.id }}"
-            timeout: 120
+            - name: Wait for job_ad1 max 120s
+              awx.awx.job_wait:
+                job_id: "{{ job_ad1.id }}"
+                timeout: 120
+
+            - name: "Launch the same job with the correct credential"
+              awx.awx.job_launch:
+                validate_certs: false
+                job_template: "{{ awx_job_template_name }}"
+                extra_vars:
+                  input_credential: "{{ input_credential }}"
+                credentials: "{{ _current_credentials + [input_credential] }}"
+                limit: "{{ groups.ad2 }}"
+              vars:
+                _current_credentials: "{{ lookup('awx.awx.controller_api', 'jobs/' + awx_job_id  + '/credentials/') | rejectattr('kind', 'match', 'ssh') }}"
+              register: job_ad2
+
+            - name: Wait for job_ad2 max 120s
+              awx.awx.job_wait:
+                job_id: "{{ job_ad2.id }}"
+                timeout: 120
 
 - ansible.builtin.import_playbook: recursive-playbook-multi-file-target.yaml
   when:
