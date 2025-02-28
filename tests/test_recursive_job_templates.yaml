@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Launch a job template with extra_vars on remote controller instance
+      awx.awx.job_launch:
+        controller_username: "{{ vault_controller_username | default(lookup('env', 'CONTROLLER_USERNAME')) }}"
+        controller_password: "{{ vault_controller_password | default(lookup('env', 'CONTROLLER_PASSWORD')) }}"
+        controller_host: "{{ vault_controller_hostname | default(lookup('env', 'CONTROLLER_HOST')) }}"
+        validate_certs: "{{ vault_controller_validate_certs | default(lookup('env', 'CONTROLLER_VERIFY_SSL')) | default(false) }}"
+        job_template: "Recursive Job Template Multi File"
+        # extra_vars:
+        #   input_credential: "Recursive Workflows Credential"
+        #   var1: "My First Variable"
+        #   var2: "My Second Variable"
+        #   var3: "My Third Variable"
+        #####job_type: run
+...
